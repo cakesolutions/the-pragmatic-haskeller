@@ -1,0 +1,20 @@
+{
+    "name": "Ciambellone Cake",
+    "ingredients": [
+        {
+            "name": "Flour",
+            "quantity": 250,
+            "measure": "gr"
+        }
+    ],
+    "steps": [
+        {
+            "step": "Cook in oven at 200 degrees",
+            "order": 1,
+            "duration": {
+                "duration": 30,
+                "measure": "minutes"
+            }
+        }
+    ]
+}

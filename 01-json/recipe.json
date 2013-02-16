@@ -1,0 +1,50 @@
+{
+    "name": "Ciambellone Cake",
+    "ingredients": [
+        {
+            "name": "Flour",
+            "quantity": 250,
+            "measure": "gr"
+        },
+        {
+            "name": "Sugar",
+            "quantity": 250,
+            "measure": "gr"
+        },
+        {
+            "name": "Sunflower Oil",
+            "quantity": 130,
+            "measure": "ml"
+        },
+        {
+            "name": "Water",
+            "quantity": 130,
+            "measure": "ml"
+        },
+        {
+            "name": "Egg",
+            "quantity": 3,
+            "measure": null
+        },
+        {
+            "name": "Yeast",
+            "quantity": 1,
+            "measure": null
+        }
+    ],
+    "steps": [
+        {
+            "step": "Mix everything",
+            "order": 1,
+            "duration": null
+        },
+        {
+            "step": "Cook in oven at 200 degrees",
+            "order": 2,
+            "duration": {
+                "duration": 30,
+                "measure": "minutes"
+            }
+        }
+    ]
+}
