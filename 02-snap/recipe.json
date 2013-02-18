@@ -23,20 +23,17 @@
         },
         {
             "name": "Egg",
-            "quantity": 3,
-            "measure": null
+            "quantity": 3
         },
         {
             "name": "Yeast",
-            "quantity": 1,
-            "measure": null
+            "quantity": 1
         }
     ],
     "steps": [
         {
             "step": "Mix everything",
-            "order": 1,
-            "duration": null
+            "order": 1
         },
         {
             "step": "Cook in oven at 200 degrees",

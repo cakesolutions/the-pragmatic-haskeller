@@ -5,7 +5,7 @@ module Pragmatic.Main where
 import Data.ByteString.Lazy as BL
 import Data.ByteString.Lazy.Char8 as C8
 import Pragmatic.Types
-import Pragmatic.JSONParser
+import Pragmatic.JSON.Parser
 import Data.Aeson
 import Data.Monoid
 
