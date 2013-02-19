@@ -1,0 +1,39 @@
+name:                the-pragmatic-haskeller
+
+-- The package version.  See the Haskell package versioning policy (PVP) 
+-- for standards guiding when and how versions should be incremented.
+-- http://www.haskell.org/haskellwiki/Package_versioning_policy
+-- PVP summary:      +-+------- breaking API changes
+--                   | | +----- non-breaking API additions
+--                   | | | +--- code changes with no API change
+version:             0.1.0.0
+
+synopsis:            A collection of simple building blocks for a fully-fledged Haskell application
+
+homepage:            https://github.com/cakesolutions/the-pragmatic-haskeller
+
+license:             MIT
+
+author:              Alfredo Di Napoli
+
+maintainer:          alfredo.dinapoli@gmail.com
+
+category:            Web
+
+build-type:          Simple
+
+cabal-version:       >=1.8
+
+
+library
+  -- Modules exported by the library.
+  -- exposed-modules:     
+  
+  -- Modules included in this library but not exported.
+  -- other-modules:       
+  
+  -- Other library packages from which modules are imported.
+  build-depends:      
+    base ==4.6.*,
+    snap >= 0.11 && < 0.12
+  
