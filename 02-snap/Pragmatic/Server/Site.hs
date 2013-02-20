@@ -3,6 +3,7 @@
 module Pragmatic.Server.Site (app) where
 
 import Data.Aeson
+import Data.AesonBson
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy as BL hiding (ByteString)
 import Data.Text as T
@@ -30,8 +31,22 @@ handleShow = do
 
 
 -------------------------------------------------------------------------------
+-- Here we try to store the recipe.json with the new Data.AesonBson
 handleStore :: AppHandler ()
-handleStore = undefined
+handleStore = do
+    toParse <- liftIO $ BL.readFile "recipe.json"
+    writeText $ T.pack . show $ ((parseRecipe toParse) >>= storeRecipe)
+
+parseRecipe :: Text -> Either Text Recipe
+parseRecipe tp = case (eitherDecode' tp :: Either String Recipe) of
+                   Left e -> T.pack e
+                   Right r -> r
+
+storeRecipe :: Recipe -> Either Text Text
+storeRecipe = eitherWithDB $ insert "recipies" $ makeRecipe . toBson
+
+makeRecipe = undefined
+
 
 -------------------------------------------------------------------------------
 routes :: [(ByteString, Handler Pragmatic Pragmatic ())]
