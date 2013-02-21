@@ -24,8 +24,8 @@ handleIndex = writeText "Welcome to the pragmatic bakery!"
 handleShow :: AppHandler ()
 handleShow = do
     toParse <- liftIO $ BL.readFile "recipe.json"
-    writeText $ parseRecipe toParse
-  where parseRecipe tp = case (eitherDecode' tp :: Either String Object) of
+    writeText $ eitherParse toParse
+  where eitherParse tp = case (eitherDecode' tp :: Either String Object) of
                            Left e -> T.pack e
                            Right r -> T.pack . show $ r
 
@@ -44,12 +44,12 @@ parseRecipe = eitherDecode'
 storeRecipe :: BL.ByteString -> AppHandler (Either String Object)
 storeRecipe recipe = do
     case parseRecipe recipe of
-      Left f -> Left "Failure"
+      Left f -> return $ Left f
       Right r -> do
         res <- eitherWithDB $ insert "recipies" $ toBson r 
         case res of
-          Left f -> Left "Failed to store the recipe."
-          Right s -> Right r
+          Left _ -> return $ Left "Failed to store the recipe."
+          Right _ -> return $ Right r
 
 
 -------------------------------------------------------------------------------
