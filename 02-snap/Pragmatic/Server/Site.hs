@@ -5,7 +5,7 @@ module Pragmatic.Server.Site (app) where
 import Data.Aeson
 import Data.AesonBson
 import Data.ByteString (ByteString)
-import Data.ByteString.Lazy as BL hiding (ByteString)
+import qualified Data.ByteString.Lazy as BL
 import Data.Text as T
 import Database.MongoDB
 import Pragmatic.JSON.Parser
@@ -25,7 +25,7 @@ handleShow :: AppHandler ()
 handleShow = do
     toParse <- liftIO $ BL.readFile "recipe.json"
     writeText $ parseRecipe toParse
-  where parseRecipe tp = case (eitherDecode' tp :: Either String Recipe) of
+  where parseRecipe tp = case (eitherDecode' tp :: Either String Object) of
                            Left e -> T.pack e
                            Right r -> T.pack . show $ r
 
@@ -35,17 +35,21 @@ handleShow = do
 handleStore :: AppHandler ()
 handleStore = do
     toParse <- liftIO $ BL.readFile "recipe.json"
-    writeText $ T.pack . show $ ((parseRecipe toParse) >>= storeRecipe)
+    result <- storeRecipe toParse
+    writeText $ T.pack . show $ result
 
-parseRecipe :: Text -> Either Text Recipe
-parseRecipe tp = case (eitherDecode' tp :: Either String Recipe) of
-                   Left e -> T.pack e
-                   Right r -> r
+parseRecipe :: BL.ByteString -> Either String Object
+parseRecipe = eitherDecode'
 
-storeRecipe :: Recipe -> Either Text Text
-storeRecipe = eitherWithDB $ insert "recipies" $ makeRecipe . toBson
-
-makeRecipe = undefined
+storeRecipe :: BL.ByteString -> AppHandler (Either String Object)
+storeRecipe recipe = do
+    case parseRecipe recipe of
+      Left f -> Left "Failure"
+      Right r -> do
+        res <- eitherWithDB $ insert "recipies" $ toBson r 
+        case res of
+          Left f -> Left "Failed to store the recipe."
+          Right s -> Right r
 
 
 -------------------------------------------------------------------------------
