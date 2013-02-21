@@ -38,12 +38,14 @@ handleStore = do
     result <- storeRecipe toParse
     writeText $ T.pack . show $ result
 
+
+-------------------------------------------------------------------------------
 parseRecipe :: BL.ByteString -> Either String Object
 parseRecipe = eitherDecode'
 
+-------------------------------------------------------------------------------
 storeRecipe :: BL.ByteString -> AppHandler (Either String Object)
-storeRecipe recipe = do
-    case parseRecipe recipe of
+storeRecipe recipe = case parseRecipe recipe of
       Left f -> return $ Left f
       Right r -> do
         res <- eitherWithDB $ insert "recipies" $ toBson r 
@@ -63,6 +65,6 @@ routes = [("/", handleIndex)
 -------------------------------------------------------------------------------
 app :: SnapletInit Pragmatic Pragmatic
 app = makeSnaplet "pragmatic" "Pragmatic web service" Nothing $ do
-    d <- nestSnaplet "db" db $ mongoDBInit 10 (host "127.0.0.1") "Snaplet-MongoDB"
+    d <- nestSnaplet "db" db $ mongoDBInit 10 (host "127.0.0.1") "pragmatic-haskeller"
     addRoutes routes
     return $ Pragmatic d
