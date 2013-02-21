@@ -5,7 +5,7 @@ module Pragmatic.Server.Site (app) where
 import Data.Aeson
 import Data.AesonBson
 import Data.ByteString (ByteString)
-import qualified Data.ByteString.Lazy as BL
+import Data.Configurator
 import Data.Text as T
 import Database.MongoDB
 import Pragmatic.JSON.Parser
@@ -13,6 +13,11 @@ import Pragmatic.Server.Application
 import Pragmatic.Types
 import Snap
 import Snap.Snaplet.MongoDB
+import qualified Data.ByteString.Lazy as BL
+
+
+config = load [Required "resources/pragmatic.cfg"]
+
 
 -------------------------------------------------------------------------------
 handleIndex :: AppHandler ()
@@ -23,7 +28,7 @@ handleIndex = writeText "Welcome to the pragmatic bakery!"
 -- Show the underlying Haskell data structure of recipe.json
 handleShow :: AppHandler ()
 handleShow = do
-    toParse <- liftIO $ BL.readFile "recipe.json"
+    toParse <- liftIO $ BL.readFile "resources/recipe.json"
     writeText $ eitherParse toParse
   where eitherParse tp = case (eitherDecode' tp :: Either String Object) of
                            Left e -> T.pack e
@@ -65,6 +70,9 @@ routes = [("/", handleIndex)
 -------------------------------------------------------------------------------
 app :: SnapletInit Pragmatic Pragmatic
 app = makeSnaplet "pragmatic" "Pragmatic web service" Nothing $ do
-    d <- nestSnaplet "db" db $ mongoDBInit 10 (host "127.0.0.1") "pragmatic-haskeller"
+    conf <- liftIO config
+    dbName <- liftIO $ require conf "pragmatic.db"
+    dbHost <-  liftIO $ require conf "pragmatic.host"
+    d <- nestSnaplet "db" db $ mongoDBInit 10 (host dbHost) dbName
     addRoutes routes
     return $ Pragmatic d
