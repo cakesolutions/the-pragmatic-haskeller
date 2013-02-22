@@ -30,6 +30,41 @@ cd snaplet-mongodb-minimalistic
 cabal install
 ```
 
+Same applies for ```aeson-bson``` and the latest Snap:
+
+```
+git clone https://github.com/adinapoli/aeson-bson.git
+cd aeson-bson
+cabal install
+```
+
+```
+git clone https://github.com/adinapoli/snap.git
+cd snap
+cabal install
+```
+
+## Avoid Cabal Hell
+Consider using ```hsenv``` to work inside an isolate environment everytime:
+
+```
+https://github.com/tmhedberg/hsenv.git
+```
+
+Usage is simple: clone the pragmatic project, cd inside it, then:
+
+```
+hsenv
+source .hsenv/bin/activate
+```
+
+Et voilà! Now you can install whatever you like without the risk of polluting
+your global Cabal installation. Is the trick I use myself; I've installed in
+the global Cabal only barebone stuff, all the rest lives inside a separate
+isolated environment! If you have cabal hell inside hsenv, simply delete
+```.hsenv``` and repeat the steps above; you'll have a brand new environment
+to spoil!
+
 ## Running the web server
 
 ```
