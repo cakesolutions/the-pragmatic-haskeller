@@ -7,7 +7,6 @@ version:             0.1.0.0
 -- description:         
 homepage:            http://www.alfredodinapoli.com
 license:             MIT
-license-file:        LICENSE
 author:              Alfredo Di Napoli
 maintainer:          alfredo.dinapoli@gmail.com
 -- copyright:           
@@ -19,24 +18,48 @@ extra-source-files:
   resources/recipe.json
   resources/pragmatic.cfg
 
-library
-  exposed-modules:
-    Pragmatic.Types,
-    Pragmatic.JSON.Parser,
-    Pragmatic.Server.Application,
-    Pragmatic.Server.Main,
-    Pragmatic.Server.Site
+Flag development
+  Description: Whether to build the server in development (interpreted) mode
+  Default: False
+
+Executable pragmatic
+  hs-source-dirs: src
+  main-is: Main.hs
 
   build-depends:
-      base ==4.6.*,
-      aeson ==0.6.*,
-      lens ==3.8.*,
-      snap ==0.11.*,
-      snaplet-mongodb-minimalistic ==0.0.*,
-      aeson-bson ==0.2.*,
-      bytestring ==0.10.*,
-      configurator ==0.2.*,
-      text ==0.11.*,
-      mongoDB ==1.3.*
+    MonadCatchIO-transformers    >= 0.2.1   && < 0.4,
+    aeson                        >= 0.6     && < 0.7,
+    aeson-bson                   >= 0.2,
+    base                         >= 4       && < 5,
+    bytestring                   >= 0.9.1   && < 0.11,
+    configurator                 >= 0.2,
+    heist                        >= 0.11    && < 0.12,
+    lens                         >= 3.7.0.1 && < 3.9,
+    mongoDB                      >= 1.3     && < 1.4,
+    mtl                          >= 2       && < 3,
+    snap                         >= 0.11    && < 0.12,
+    snap-core                    >= 0.9     && < 0.11,
+    snap-loader-static           >= 0.9     && < 0.10,
+    snap-server                  >= 0.9     && < 0.11,
+    snaplet-mongodb-minimalistic >= 0.0.6.6,
+    text                         >= 0.11    && < 0.12,
+    time                         >= 1.1     && < 1.5,
+    xmlhtml                      >= 0.1
 
-  hs-source-dirs:      src
+  if flag(development)
+    build-depends:
+      snap-loader-dynamic == 0.10.*
+    cpp-options: -DDEVELOPMENT
+    -- In development mode, speed is already going to suffer, so skip
+    -- the fancy optimization flags.  Additionally, disable all
+    -- warnings.  The hint library doesn't give an option to execute
+    -- compiled code when there were also warnings, so disabling
+    -- warnings allows quicker workflow.
+    ghc-options: -threaded -w
+  else
+    if impl(ghc >= 6.12.0)
+      ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
+                   -fno-warn-orphans -fno-warn-unused-do-bind
+    else
+      ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
+                   -fno-warn-orphans

@@ -3,4 +3,5 @@
 snaplet*
 foo
 aeson-bson
-dist*
+**/dist*
+**/log*
