@@ -11,6 +11,8 @@ recipies. In particular, we'll focus on:
 
 * A DSL for describing recipies
 
+* Interfacing with an external [API](http://www.bigoven.com/)
+
 * An Async agent for decoupling heavy computations from our REST endpoints
 
 ## Installation
