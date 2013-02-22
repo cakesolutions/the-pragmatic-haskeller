@@ -69,7 +69,7 @@ to spoil!
 
 This changes episode after episode. Even though Snap allows you to compile
 your webapp in a raw, blazing fast, machine executable, it's easier when
-hacking to run the server like a normal environment:
+hacking to run the server like a normal Haskell program:
 
 ```
 cd [any episodes >= 2]
