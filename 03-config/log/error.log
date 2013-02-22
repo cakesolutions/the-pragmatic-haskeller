@@ -1,0 +1,52 @@
+[22/Feb/2013:13:53:35 +0000] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[22/Feb/2013:13:53:40 +0000] During processing of request from 127.0.0.1:53485
+request:
+"Request <\n    server-name: 0.0.0.0\n    remote: 127.0.0.1:53485\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          Accept-Language: en-US,en;q=0.8\n Host: 0.0.0.0:8000\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Cache-Control: max-age=0\n Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\n User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17\n Connection: keep-alive\n Cookie: JSESSIONID=9A52FA8B860B8B927CB11B84FFD9A4F4\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      Cookie {cookieName = \"JSESSIONID\", cookieValue = \"9A52FA8B860B8B927CB11B84FFD9A4F4\", cookieExpires = Nothing, cookieDomain = Nothing, cookiePath = Nothing, cookieSecure = False, cookieHttpOnly = False}\n      ========================================\n    pathinfo: show\n    contextpath: /\n    URI: /show\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Compile errors:
+
+Could not find module `Main'
+Use -v to see a list of the files searched for.
+[22/Feb/2013:13:53:40 +0000] During processing of request from 127.0.0.1:53485
+request:
+"Request <\n    server-name: 0.0.0.0\n    remote: 127.0.0.1:53485\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          Accept-Language: en-US,en;q=0.8\n Host: 0.0.0.0:8000\n Accept: */*\n Accept-Encoding: gzip,deflate,sdch\n Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\n User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17\n Connection: keep-alive\n Cookie: JSESSIONID=9A52FA8B860B8B927CB11B84FFD9A4F4\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      Cookie {cookieName = \"JSESSIONID\", cookieValue = \"9A52FA8B860B8B927CB11B84FFD9A4F4\", cookieExpires = Nothing, cookieDomain = Nothing, cookiePath = Nothing, cookieSecure = False, cookieHttpOnly = False}\n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Compile errors:
+
+Could not find module `Main'
+Use -v to see a list of the files searched for.
+[22/Feb/2013:13:54:17 +0000] During processing of request from 127.0.0.1:53485
+request:
+"Request <\n    server-name: 0.0.0.0\n    remote: 127.0.0.1:53485\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          Accept-Language: en-US,en;q=0.8\n Host: 0.0.0.0:8000\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Cache-Control: max-age=0\n Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\n User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17\n Connection: keep-alive\n Cookie: JSESSIONID=9A52FA8B860B8B927CB11B84FFD9A4F4\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      Cookie {cookieName = \"JSESSIONID\", cookieValue = \"9A52FA8B860B8B927CB11B84FFD9A4F4\", cookieExpires = Nothing, cookieDomain = Nothing, cookiePath = Nothing, cookieSecure = False, cookieHttpOnly = False}\n      ========================================\n    pathinfo: show\n    contextpath: /\n    URI: /show\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Compile errors:
+
+Could not find module `Main'
+Use -v to see a list of the files searched for.
+[22/Feb/2013:13:54:17 +0000] During processing of request from 127.0.0.1:53485
+request:
+"Request <\n    server-name: 0.0.0.0\n    remote: 127.0.0.1:53485\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          Accept-Language: en-US,en;q=0.8\n Host: 0.0.0.0:8000\n Accept: */*\n Accept-Encoding: gzip,deflate,sdch\n Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\n User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17\n Connection: keep-alive\n Cookie: JSESSIONID=9A52FA8B860B8B927CB11B84FFD9A4F4\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      Cookie {cookieName = \"JSESSIONID\", cookieValue = \"9A52FA8B860B8B927CB11B84FFD9A4F4\", cookieExpires = Nothing, cookieDomain = Nothing, cookiePath = Nothing, cookieSecure = False, cookieHttpOnly = False}\n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Compile errors:
+
+Could not find module `Main'
+Use -v to see a list of the files searched for.
+[22/Feb/2013:13:54:26 +0000] Server.httpServe: SHUTDOWN
+[22/Feb/2013:13:54:26 +0000] Server.httpServe: BACKEND STOPPED
+[22/Feb/2013:13:58:53 +0000] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[22/Feb/2013:13:59:01 +0000] During processing of request from 127.0.0.1:53517
+request:
+"Request <\n    server-name: 0.0.0.0\n    remote: 127.0.0.1:53517\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          Accept-Language: en-US,en;q=0.8\n Host: 0.0.0.0:8000\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Cache-Control: max-age=0\n Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\n User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17\n Connection: keep-alive\n Cookie: JSESSIONID=9A52FA8B860B8B927CB11B84FFD9A4F4\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      Cookie {cookieName = \"JSESSIONID\", cookieValue = \"9A52FA8B860B8B927CB11B84FFD9A4F4\", cookieExpires = Nothing, cookieDomain = Nothing, cookiePath = Nothing, cookieSecure = False, cookieHttpOnly = False}\n      ========================================\n    pathinfo: \n    contextpath: /\n    URI: /\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Compile errors:
+
+Not in scope: type constructor or class `AppConfig'
+[22/Feb/2013:13:59:01 +0000] During processing of request from 127.0.0.1:53517
+request:
+"Request <\n    server-name: 0.0.0.0\n    remote: 127.0.0.1:53517\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          Accept-Language: en-US,en;q=0.8\n Host: 0.0.0.0:8000\n Accept: */*\n Accept-Encoding: gzip,deflate,sdch\n Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\n User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17\n Connection: keep-alive\n Cookie: JSESSIONID=9A52FA8B860B8B927CB11B84FFD9A4F4\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      Cookie {cookieName = \"JSESSIONID\", cookieValue = \"9A52FA8B860B8B927CB11B84FFD9A4F4\", cookieExpires = Nothing, cookieDomain = Nothing, cookiePath = Nothing, cookieSecure = False, cookieHttpOnly = False}\n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Compile errors:
+
+Not in scope: type constructor or class `AppConfig'
+[22/Feb/2013:13:59:07 +0000] Server.httpServe: SHUTDOWN
+[22/Feb/2013:13:59:07 +0000] Server.httpServe: BACKEND STOPPED
