@@ -16,9 +16,6 @@ import Snap.Snaplet.MongoDB
 import qualified Data.ByteString.Lazy as BL
 
 
-config = load [Required "resources/pragmatic.cfg"]
-
-
 -------------------------------------------------------------------------------
 handleIndex :: AppHandler ()
 handleIndex = writeText "Welcome to the pragmatic bakery!"
@@ -28,7 +25,7 @@ handleIndex = writeText "Welcome to the pragmatic bakery!"
 -- Show the underlying Haskell data structure of recipe.json
 handleShow :: AppHandler ()
 handleShow = do
-    toParse <- liftIO $ BL.readFile "resources/recipe.json"
+    toParse <- liftIO $ BL.readFile "recipe.json"
     writeText $ eitherParse toParse
   where eitherParse tp = case (eitherDecode' tp :: Either String Object) of
                            Left e -> T.pack e
@@ -70,7 +67,7 @@ routes = [("/", handleIndex)
 -------------------------------------------------------------------------------
 app :: SnapletInit Pragmatic Pragmatic
 app = makeSnaplet "pragmatic" "Pragmatic web service" Nothing $ do
-    conf <- liftIO config
+    conf <- getSnapletUserConfig
     dbName <- liftIO $ require conf "pragmatic.db"
     dbHost <-  liftIO $ require conf "pragmatic.host"
     d <- nestSnaplet "db" db $ mongoDBInit 10 (host dbHost) dbName
