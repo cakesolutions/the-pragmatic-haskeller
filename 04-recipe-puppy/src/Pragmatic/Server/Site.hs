@@ -6,14 +6,16 @@ import Data.Aeson
 import Data.AesonBson
 import Data.ByteString (ByteString)
 import Data.Configurator
-import Data.Text as T
+import qualified Data.Text as T
 import Database.MongoDB
-import Pragmatic.JSON.Parser
+import Pragmatic.JSON.Parser()
 import Pragmatic.Server.Application
-import Pragmatic.Types
+import Pragmatic.Types()
 import Snap
 import Snap.Snaplet.MongoDB
 import qualified Data.ByteString.Lazy as BL
+
+import Pragmatic.Server.RecipePuppy (puppyRoutes)
 
 
 -------------------------------------------------------------------------------
@@ -57,11 +59,13 @@ storeRecipe recipe = case parseRecipe recipe of
 
 
 -------------------------------------------------------------------------------
-routes :: [(ByteString, Handler Pragmatic Pragmatic ())]
-routes = [("/", handleIndex)
-         , ("/show", handleShow)
-         , ("/store", handleStore)
-         ]
+routes :: [(ByteString, AppHandler ())]
+routes = puppyRoutes ++ basicRoutes
+
+basicRoutes :: [(ByteString, AppHandler ())]
+basicRoutes = [("/", handleIndex)
+              , ("/show", handleShow)
+              , ("/store", handleStore)]
 
 
 -------------------------------------------------------------------------------

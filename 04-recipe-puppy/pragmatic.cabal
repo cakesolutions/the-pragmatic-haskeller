@@ -38,7 +38,7 @@ Executable pragmatic
     text                      >= 0.11    && < 0.12,
     time                      >= 1.1     && < 1.5,
     snaplet-mongodb-minimalistic >= 0.0.6.7 && < 0.0.8,
-    HTTP                      >= 4000.2.8   && < 4000.3
+    HTTP                      >= 4000.2.8   && < 4000.3,
     xmlhtml                   >= 0.1
 
   if flag(old-base)
