@@ -9,9 +9,9 @@ recipies. In particular, we'll focus on:
 
 * Build a web service which sends us back recipies ad Json file.
 
-* A DSL for describing recipies
+* Interfacing with an external [API](http://www.recipepuppy.com/)
 
-* Interfacing with an external [API](http://www.bigoven.com/)
+* A DSL for describing recipies
 
 * An Async agent for decoupling heavy computations from our REST endpoints
 
