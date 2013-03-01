@@ -9,7 +9,7 @@ import Control.Applicative hiding ((<|>), optional, many)
 
 
 ws :: Parser String
-ws = many1 (oneOf " ")
+ws = many (oneOf " ")
 
 
 int :: (Integral a, Read a) => Parser a
@@ -22,7 +22,7 @@ stringLike = char '"' *> many (noneOf ['"']) <* char '"'
 
 -- A parser combinator which skips whitespaces
 lexeme :: Parser a -> Parser a
-lexeme p = p <* ws
+lexeme p = ws *> p <* ws
 
 
 (<||>) :: Parser a -> Parser a -> Parser a
@@ -34,10 +34,12 @@ p <||> q = try p <|> q
 -- The trick is using pure
 -- pure :: a -> f a
 measureP :: Parser (Maybe String)
-measureP = (string "gr" *> (pure $ Just "gr"))
-     <||> (string "ml" *> (pure $ Just "ml"))
-     <||> (pure Nothing)
+measureP = (string "gr" *> (pure . Just $ "gr"))
+       <|> (string "ml" *> (pure . Just $ "ml"))
+       <|> (pure Nothing)
 
+ofP :: Parser (Maybe String)
+ofP = (string "of" *> (pure . Just $ "of")) <|> pure Nothing
 
 -- Still doesn't handle the possibility "of" is
 -- optional
@@ -45,6 +47,6 @@ ingredient :: Parser Ingredient
 ingredient = do
     qt <- lexeme int
     ms <- lexeme measureP
-    lexeme (string "of")
-    name <- stringLike
+    lexeme ofP
+    name <- lexeme stringLike
     return $ Ingredient name qt ms
