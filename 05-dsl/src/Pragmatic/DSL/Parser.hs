@@ -4,18 +4,47 @@ module Pragmatic.DSL.Parser where
 
 import Text.ParserCombinators.Parsec
 import Pragmatic.Types
+import Text.Parsec hiding (try)
+import Control.Applicative hiding ((<|>), optional, many)
 
--- A simple parser which returns a string.
--- We are saying "pick as many char as you
--- want, ignoring spaces and newlines. It will
--- stop as soon as it finds a space or a newline
-plainValue :: Parser String
-plainValue = many1 (noneOf " \n")
 
--- We run a parser this way, this will yield
--- "to"
-runPlainValue :: Either ParseError String
-runPlainValue = parse plainValue "description" "to match"
+ws :: Parser String
+ws = many1 (oneOf " ")
 
+
+int :: (Integral a, Read a) => Parser a
+int = read <$> many1 digit
+
+
+stringLike :: Parser String
+stringLike = char '"' *> many (noneOf ['"']) <* char '"'
+
+
+-- A parser combinator which skips whitespaces
+lexeme :: Parser a -> Parser a
+lexeme p = p <* ws
+
+
+(<||>) :: Parser a -> Parser a -> Parser a
+p <||> q = try p <|> q
+
+
+-- Here we are saying, try to match one between
+-- gr and ml, in you can't default to Nothing.
+-- The trick is using pure
+-- pure :: a -> f a
+measureP :: Parser (Maybe String)
+measureP = (string "gr" *> (pure $ Just "gr"))
+     <||> (string "ml" *> (pure $ Just "ml"))
+     <||> (pure Nothing)
+
+
+-- Still doesn't handle the possibility "of" is
+-- optional
 ingredient :: Parser Ingredient
-ingredient = undefined
+ingredient = do
+    qt <- lexeme int
+    ms <- lexeme measureP
+    lexeme (string "of")
+    name <- stringLike
+    return $ Ingredient name qt ms
