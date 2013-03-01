@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Pragmatic.DSL.Parser where
+module Pragmatic.DSL.Example where
 
 import Text.ParserCombinators.Parsec
 import Pragmatic.Types
-import Text.Parsec hiding (try)
+import Pragmatic.DSL.Parser
 import Control.Applicative hiding ((<|>), optional, many)
 
 -- Shameless copy of the "Parsing Stuff in
@@ -23,3 +23,9 @@ alwaysTrue = pure True
 -- (*>) :: Applicative f => f a -> f b -> f b
 boolTrue :: Parser Bool
 boolTrue = (string "true") *> alwaysTrue
+
+parseCiambellone :: IO (Either ParseError Recipe)
+parseCiambellone = parseFromFile recipe "ciambellone.rcp"
+
+printCiambelloneParsing :: IO ()
+printCiambelloneParsing = parseCiambellone >>= print

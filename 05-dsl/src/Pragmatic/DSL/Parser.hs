@@ -4,7 +4,6 @@ module Pragmatic.DSL.Parser where
 
 import Text.ParserCombinators.Parsec
 import Pragmatic.Types
-import Text.Parsec hiding (try)
 import Control.Applicative hiding ((<|>), optional, many)
 
 
@@ -17,10 +16,10 @@ int = read <$> many1 digit
 
 
 stringLike :: Parser String
-stringLike = char '"' *> many (noneOf ['"']) <* char '"'
+stringLike = char '"' *> many (noneOf "\"") <* char '"'
 
 
--- A parser combinator which skips whitespaces
+-- A parser combinator which skips whitespaces from both sides
 lexeme :: Parser a -> Parser a
 lexeme p = ws *> p <* ws
 
@@ -30,23 +29,59 @@ p <||> q = try p <|> q
 
 
 -- Here we are saying, try to match one between
--- gr and ml, in you can't default to Nothing.
--- The trick is using pure
--- pure :: a -> f a
+-- gr and ml, if you can't default to Nothing.
+-- The trick is using  pure :: a -> f a
 measureP :: Parser (Maybe String)
 measureP = (string "gr" *> (pure . Just $ "gr"))
        <|> (string "ml" *> (pure . Just $ "ml"))
        <|> (pure Nothing)
 
-ofP :: Parser (Maybe String)
-ofP = (string "of" *> (pure . Just $ "of")) <|> pure Nothing
 
--- Still doesn't handle the possibility "of" is
--- optional
+syntacticSugar :: String -> Parser (Maybe String)
+syntacticSugar s = (string s *> (pure . Just $ s)) <|> pure Nothing
+
+
 ingredient :: Parser Ingredient
 ingredient = do
     qt <- lexeme int
     ms <- lexeme measureP
-    lexeme ofP
+    lexeme (syntacticSugar "of")
     name <- lexeme stringLike
+    lexeme (syntacticSugar "and")
+    string "\n"
     return $ Ingredient name qt ms
+
+-- Step
+-------------------------------------------------------------------------------
+step :: Parser Step
+step = do
+    sn <- lexeme stringLike
+    d <- optionMaybe durationP
+    lexeme (syntacticSugar "and")
+    string "\n"
+    return $ Step sn 1 d
+
+-- Duration
+-------------------------------------------------------------------------------
+durationP :: Parser Duration
+durationP = do
+    lexeme (string "for")
+    d <- lexeme int
+    u <- lexeme durationUnit
+    return $ Duration d u
+  where durationUnit = (string "seconds") <|>
+                       (string "minutes") <|>
+                       (string "hours")
+
+
+-- Recipe
+-------------------------------------------------------------------------------
+recipe :: Parser Recipe
+recipe = do
+    rn <- lexeme stringLike
+    lexeme (syntacticSugar "is made with") *> string "\n"
+    i <- many1 ingredient
+    string "\n"
+    lexeme (string "preparated by") *> string "\n"
+    s <- many1 step
+    return $ Recipe rn i s
