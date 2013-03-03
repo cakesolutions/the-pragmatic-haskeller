@@ -1,0 +1,591 @@
+ <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-US">
+ <head>
+ <title>Parsing Stuff in Haskell</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta name="duration" content="60" />
+ <link rel="stylesheet" href="./styles/slidy.css" type="text/css" />
+ <script src="./scripts/slidy.js" charset="utf-8" type="text/javascript">
+ </script>
+ </head>
+ <body>
+ <div class="slide">
+ <h1>Parsing Stuff in Haskell</h1>
+ <p>London HUG, 23rd January 2013</p>
+ <p>Ben Clifford,
+ benc@cqx.ltd.uk</p>
+ <p>TURN OFF YOUR PHONES!!! NOW!!</p> 
+ </div>
+  <div class="slide"> 
+   Parsing: taking a string of symbols and analysing it
+     so we can do something interesting with the content.
+  </div>
+ <div class="slide">
+ <pre>"57" :: String <br/>
+ == ['5', '7'] :: [Char]
+ </pre>
+ <div class="incremental">
+  <pre>"57" + 1 :: ?</pre>
+ </div>
+ <div class="incremental">
+ <pre>
+ (read "57") + 1 <br/>
+ 58
+ </pre>
+ </div>
+ </div>
+ <div class="slide">
+    <pre>CSV:   2,37,"ben clifford",10,888738A</pre>
+ <pre>HTTP: GET / <br />
+ 404 Page Not Found
+ </pre>
+ </div>
+ <div class="slide"><pre>
+ {
+    "rsvp_limit": 90,
+    "status": "upcoming",
+    "visibility": "public",
+    "venue": {
+        "lon": -0.10435,
+        "repinned": true,
+        "name": "City University",
+        "address_1": "College Building, St John Street",
+        "lat": 51.52725,
+        "country": "gb",
+        "city": "London. EC1V 4PB"
+    },
+    "id": "88494702",
+    "time": 1358965800000,
+    "yes_rsvp_count": 55,
+    "event_url": "http://www.meetup.com/London-HUG/events/88494702/",
+    "name": "Parsing Stuff in Haskell",
+    "group": {
+        "id": 3866232,
+        "name": "London HUG",
+        "join_mode": "open",
+        "urlname": "London-HUG",
+    }
+
+
+}
+ </pre></div>
+ <div class="slide">
+ <pre>
+ { "name":"ben",
+    "beer":true, 
+    "likes": ["puppies", "computers"],
+    "weight": 78
+ }
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>import Text.ParserCombinators.Parsec hiding ((&lt;|>), many)</pre>
+ <pre>import Control.Applicative</pre>
+ <pre>import Control.Monad</pre>
+ </div>
+ <div class="slide">
+ <pre>
+ true
+ </pre>
+ <pre class="incremental">
+  matchTrue :: Parser String
+  matchTrue = string "true"
+ </pre>
+ <pre class="incremental">
+ parse matchTrue "a test parser" "true"
+ Right "true"
+ </pre>
+
+ <pre class="incremental">
+ parse matchTrue "a test parser" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting "true"
+ </pre>
+ </div>
+ <div class="slide"><pre>
+ alwaysTrue :: Parser Bool
+ alwaysTrue = pure True
+ </pre>
+ <div class="incremental">
+ <pre>
+ parse alwaysTrue "test" "true"
+ Right True
+
+ parse alwaysTrue "test" "lemon"
+ Right True
+
+ parse alwaysTrue "test" "false"
+ Right True
+ </pre>
+ </div>
+ </div>
+ <div class="slide">
+ <pre>
+ matchTrue :: Parser String
+ matchTrue = string "true"
+
+ alwaysTrue :: Parser Bool
+ alwaysTrue = pure True
+ </pre>
+ <pre class="incremental">
+ boolTrue :: Parser Bool
+ boolTrue = matchTrue *> alwaysTrue
+ boolTrue = (string "true") *> (pure True)
+
+ *> :: Applicative f => f a -> f b -> f b
+ *> :: Parser a -> Parser b -> Parser b
+ </pre>
+ <pre class="incremental">
+ parse boolTrue "test" "true"
+ Right True
+ 
+ parse boolTrue "test" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting "true"
+ </pre></div>
+ <div class="slide"><pre>
+ boolFalse :: Parser Bool
+ boolFalse = (string "false") *> (pure False)
+ </pre></div>
+ <div class="slide"><pre>
+ boolTrue :: Parser Bool
+ boolFalse :: Parser Bool
+ </pre>
+ <pre class="incremental">
+ bool :: Parser Bool
+ bool = boolTrue <|> boolFalse
+
+ (<|>) :: Alternative f => f a -> f a -> f a
+ (<|>) :: Parser a -> Parser a -> Parser a
+ </pre>
+ <pre class="incremental">
+ parse bool "test" "true"
+ Right True
+
+ parse bool "test" "false"
+ Right False
+ 
+ parse bool "test" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting "true" or "false"
+ </pre></div>
+ <div class="slide"><pre>
+ "City University"
+
+ stringLiteral :: Parser String
+ stringLiteral =
+  char '"' *> (many (noneOf ['"'])) <* char '"'
+ </pre>
+ <pre class="incremental">
+ char :: Parser Char
+ noneOf :: [Char] -> Parser Char
+ many :: Parser p -> Parser [p]
+ <* :: Parser a -> Parser b -> Parser a
+ *> :: Parser a -> Parser b -> Parser b
+ </pre>
+ <pre class="incremental">
+ parse stringLiteral "test" "\"hello\""
+ Parser returned: Right "hello"
+
+ parse stringLiteral "test" "true"
+ Parser returned: Left (line 1, column 1):
+ unexpected "t"
+ expecting "\""
+
+ parse stringLiteral "test" "\"true\""
+ Right "true"
+ </div>
+ <div class="slide">
+ <pre>
+ value = bool <|> stringLiteral
+ </pre>
+ </div>
+ <div class="slide"><pre>
+ value = bool <|> stringLiteral :: Parser ?
+
+
+ Couldn't match expected type `Bool' with actual type `[Char]'
+ Expected type: Text.Parsec.Prim.ParsecT
+       String () Data.Functor.Identity.Identity Bool
+ Actual type: Parser [Char]
+  In the second argument of `(<|>)', namely `stringLiteral'
+  In the expression: bool <|> stringLiteral
+ </pre>
+ <pre class="incremental">
+ (<|>) :: Parser a -> Parser a -> Parser a 
+ </pre>
+ </div>
+ <div class="slide"><pre>
+  data JSONValue = 
+      B Bool
+    | S String
+
+  jsonValue :: Parser JSONValue
+ </pre>
+ <pre class="incremental">
+  jsonValue :: Parser JSONValue
+  jsonValue = bool <|> stringLiteral
+ </pre>
+ <pre class="incremental">
+    Couldn't match expected type `JSONValue' with actual type `Bool'
+    Expected type: Text.Parsec.Prim.ParsecT
+                     String () Data.Functor.Identity.Identity JSONValue
+      Actual type: Parser Bool
+    In the first argument of `(<|>)', namely `bool'
+    In the expression: bool <|> stringLiteral
+ </pre></div>
+ <div class="slide">
+ <pre>
+ bool :: Parser Bool
+ stringLiteral :: Parser String
+ </pre>
+ <pre class="incremental">
+ jsonBool :: Parser JSONValue
+ jsonStringLiteral :: Parser JSONValue
+
+ jsonValue :: Parser JSONValue
+ jsonValue = jsonBool <|> jsonStringLiteral
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ bool :: Parser Bool
+
+ data JSONValue = B Bool | ...
+ jsonBool :: Parser JSONValue
+ </pre><pre>
+ jsonBool = B <$> bool
+ jsonBool = fmap B bool
+ </pre>
+ <pre>
+ (<$>) :: Functor f => (a -> b) -> f a -> f b
+ (<$>) :: (a -> b) -> Parser a -> Parser b
+
+ map :: (a -> b) -> [a] -> [b]
+ </pre>
+ <pre>
+ parse jsonBool "test" "true"
+ Right (B True)
+
+ parse jsonBool "test" "false"
+ Right (B False)
+
+ parse jsonBool "test" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting "true" or "false"
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ jsonStringLiteral :: Parser JSONValue
+ jsonStringLiteral = S <$> stringLiteral
+ </pre>
+ <pre class="incremental">
+ jsonBool :: Parser JSONValue
+ jsonStringLiteral :: Parser JSONValue
+
+ jsonValue :: Parser JSONValue
+ jsonValue = jsonBool <|> jsonStringLiteral
+ </pre>
+ <pre class="incremental">
+ parse jsonValue "test" "\"hello\""
+ Right (S "hello")
+ parse jsonValue "test" "true"
+ Right (B True)
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ ["Hello","Goodbye",true,false,true] 
+ </pre>
+ <pre>
+ array :: Parser [JSONValue]
+ array =
+   (char '[')
+   *>
+   ( jsonValue `sepBy` (char ',') )
+   <*
+   (char ']')
+ </pre>
+ <pre class="incremental">
+ data JSONValue = ... | A [JSONValue]
+  jsonArray :: Parser JSONValue
+  jsonArray = A <$> array
+  jsonValue = ... <|> jsonArray
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ {"name":"Ben","beer":true}
+ </pre>
+ <pre>
+  data JSONValue = ... | O [(String, JSONValue)] | ...
+  jsonObject =
+    O <$> ((char '{') *>
+           (objectEntry `sepBy` comma)
+           <* (char '}'))
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ "beer":true
+ </pre>
+ <pre class="incremenetal">
+  objectEntry :: Parser (String, JSONValue)
+  objectEntry = do
+    key <- stringLiteral
+    char ':'
+    value <- jsonValue
+    return (key, value)
+ </pre>
+ <pre class="incremental">
+ parse objectEntry "test" ""beer":true"
+ Right ("beer",B True)
+ </pre>
+ <pre class="incremental">
+ parse jsonValue "test" "{"beer":true}"
+ Right (O [("beer",B True)])
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ parse jsonValue "test" "[true,true,true]"
+ Right (A [B True,B True,B True])
+ </pre>
+ <pre>
+ parse jsonValue "test" "[true, true, true]"
+                               ^
+ Left (line 1, column 7):
+ unexpected " "
+ expecting "true", "false", "\"", "[" or "{"
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ ws :: Parser String
+ ws = many (oneOf " \t\n")
+ </pre>
+ <pre class="incremental">
+ lexeme p = p <* ws
+ </pre>
+ <pre class="incremental">
+ jsonBool' = B <$> bool
+
+ jsonBool = lexeme jsonBool'
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ jsonBool = lexeme jsonBool'
+ jsonStringLiteral = lexeme (S <$> stringLiteral)
+
+ jsonArray = A <$> array
+ array = (lexeme $ char '[') *>
+           (  jsonValue `sepBy` (lexeme $ char ',') )
+         <* (lexeme $ char ']')
+ </pre>
+ </div>
+ <div class="slide">
+ <p>before:</p>
+ <pre>
+ parse jsonValue "test" "[true, true, true]"
+                               ^
+ Left (line 1, column 7):
+ unexpected " "
+ expecting "true", "false", "\"", "[" or "{"
+ </pre>
+ <p>after:</p>
+ <pre>
+ parse jsonValue "test" "[true, true, true]"
+ Right (A [B True,B True,B True])
+ </pre>
+ </div>
+ <div class="slide">
+ <p>data.txt:</p>
+ <pre>
+ {
+    "rsvp_limit": 90,
+    "status": "upcoming",
+    "visibility": "public",
+    "venue": {
+        "lon": -0.10435,
+        "repinned": true,
+        "name": "City University",
+        "address_1": "College Building, St John Street",
+        "lat": 51.52725,
+        "country": "gb",
+        "city": "London. EC1V 4PB"
+    },
+    "id": "88494702",
+    "time": 1358965800000,
+    "yes_rsvp_count": 55,
+    "event_url": "http://www.meetup.com/London-HUG/events/88494702/",
+    "name": "Parsing Stuff in Haskell",
+    "group": {
+        "id": 3866232,
+        "name": "London HUG",
+        "join_mode": "open",
+        "urlname": "London-HUG",
+    }
+}
+ </pre></div>
+ <div class="slide">
+ <pre>
+ x <- parseFromFile jsonValue "data.txt"
+ </pre>
+ <pre>
+ Right (O [
+   ("rsvp_limit",N 90.0),
+   ("status",S "upcoming"),
+   ("visibility",S "public"),
+   ("venue",O [
+     ("lon",N (-0.10435)),
+     ("repinned",B True),
+     ("name",S "City University"),
+     ("address_1",S "College Building, St John Street"),
+     ("lat",N 51.52725),
+     ("country",S "gb"),
+     ("city",S "London. EC1V 4PB")]),
+   ...
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ do
+    x <- parseFromFile jsonValue "data.txt"
+    case x of
+      Right (O x') -> do
+        print $ lookup "status" x'
+        print $ lookup "rsvp_limit" x'
+</pre>
+<pre>
+ Just (S "upcoming")
+ Just (N 90.0)
+ </pre>
+ </div>
+ <div class="slide"><pre>
+  day =  (string "Monday" *> pure 1)
+     <|> (string "Tuesday" *> pure 2)
+     <|> (string "Wednesday" *> pure 3)
+     <|> (string "Thursday" *> pure 4)
+ ...
+ </pre></div>
+ <div class="slide">
+ <pre>
+ parse day "test" "Monday"
+ Right 1
+ </pre>
+ <pre class="incremental">
+ parse day "test" "Tuesday"
+ Right 2
+ </pre>
+ <pre class="incremental">
+ parse day "test" "Wednesday"
+ Right 3
+ </pre>
+ <pre class="incremental">
+ parse day "test" "Thursday"
+                    ^
+ Left (line 1, column 1):
+ unexpected "h"
+ expecting "Tuesday"
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+  day = (string "Monday" *> pure 1)
+     <|> try (string "Tuesday" *> pure 2)
+     <|>(string "Wednesday" *> pure 3)
+     <|>(string "Thursday" *> pure 4)
+ ...
+ </pre>
+ <pre class="incremental">
+  &lt||> :: Parser a -> Parser a -> Parser a
+  p &lt||> q = (try p) &lt|> q
+ </pre>
+ <pre class="incremental">
+  day =   (string "Monday" *> pure 1)
+     <||> (string "Tuesday" *> pure 2)
+     <||> (string "Wednesday" *> pure 3)
+     <||> (string "Thursday" *> pure 4)
+ ...
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ parse jsonValue "test" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting "true", "false", "\"", "[" or "{"
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ &lt?> :: Parser p -> String -> Parser p
+ </pre>
+ <pre class="incremental">
+  jsonValue = jsonBool
+          <|> (jsonStringLiteral <?> "string literal")
+          <|> jsonArray
+          <|> jsonObject
+          <|> jsonNumber
+ </pre>
+ <pre class="incremental">
+ parse jsonValue "test" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting "true", "false", string literal, "[" or "{" 
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ parse jsonValue "test" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting boolean, string literal, array or object
+ </pre>
+ <pre class="incremental">
+ parse jsonValue "test" "lemon"
+ Left (line 1, column 1):
+ unexpected "l"
+ expecting JSON value
+ </div>
+ <div class="slide">
+ <pre>
+ parse jsonBool "test" "false"
+ Right (B False)
+ </pre>
+ <pre>
+ parse jsonBool "test" "falsehood"
+ Using jsonBool to parse string: falsehood
+ Right (B False)
+ </pre>
+ <pre class="incremental">
+ parse (jsonBool <* eof) "test" "falsehood"
+                                    ^
+ Left (line 1, column 6):
+ unexpected 'h'
+ expecting end of input
+ </pre>
+ </div>
+ <div class="slide">
+ <pre>
+ parse parseFromFile
+ string
+ char, noneOf, oneOf
+ eof
+ pure
+ *> and &lt;*
+ &lt;|>
+ &lt;$> fmap
+ do
+ &lt;?>
+ try
+ </pre>
+ <p>plenty of other stuff in haddock...</p>
+ </div>
+ </body>
+ </html>
