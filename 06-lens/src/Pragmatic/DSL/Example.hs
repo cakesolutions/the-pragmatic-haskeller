@@ -7,7 +7,6 @@ import Pragmatic.Types
 import Pragmatic.DSL.Parser
 import Control.Applicative hiding ((<|>), optional, many)
 import Control.Lens
-import Data.List (nub)
 
 -- Shameless copy of the "Parsing Stuff in
 -- Haskell" talk.
