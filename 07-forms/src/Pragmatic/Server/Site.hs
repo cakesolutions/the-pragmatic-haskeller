@@ -68,8 +68,7 @@ routes = puppyRoutes ++ basicRoutes
 
 -------------------------------------------------------------------------------
 basicRoutes :: [(ByteString, AppHandler ())]
-basicRoutes = [("/", handleIndex)
-              , ("/show", handleShow)
+basicRoutes = [ ("/show", handleShow)
               , ("/store", handleStore)
               , ("", serveDirectory "static")]
 
