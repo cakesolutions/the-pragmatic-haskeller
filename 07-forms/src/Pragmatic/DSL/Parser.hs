@@ -69,9 +69,7 @@ durationP = do
     d <- lexeme int
     u <- lexeme durationUnit
     return $ Duration d u
-  where durationUnit = (string "seconds") <|>
-                       (string "minutes") <|>
-                       (string "hours")
+  where durationUnit = string "seconds" <|> string "minutes" <|> string "hours"
 
 
 -- Recipe
@@ -82,6 +80,6 @@ recipe = do
     lexeme (syntacticSugar "is made with") *> string "\n"
     i <- many1 ingredient
     string "\n"
-    lexeme (string "preparated by") *> string "\n"
+    lexeme (string "prepared by") *> string "\n"
     s <- many1 step
     return $ Recipe rn i s

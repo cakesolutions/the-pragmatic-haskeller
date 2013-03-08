@@ -13,6 +13,8 @@
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/bootswatch.css" rel="stylesheet">
+    <link href="/css/codemirror/codemirror.css" rel="stylesheet">
+    <link href="/css/codemirror/themes/ambiance.css" rel="stylesheet">
 
   </head>
 
@@ -83,9 +85,19 @@
 
     <div class="control-group span6">
       <form method="post" action="/show">
-          <label class="control-label" for="textarea">Submit your recipe</label>
+          <label class="control-label" for="dsl">Submit your recipe</label>
           <div class="controls">
-            <textarea class="input-xlarge span5" id="textarea" rows="18"></textarea>
+            <textarea class="input-xlarge span5" id="dsl">
+"Ciambellone" is made with
+    250 gr of "Flour"
+    250 gr of "Sugar"
+    130 ml of "Sunflower Oil"
+    130 ml of "Water"
+    3 "Eggs"
+
+  prepared by
+    "Mixing everything" and
+    "Cooking in oven at 200 degrees" for 40 minutes</textarea><br/>
             <button type="submit" class="btn btn-primary">Save your recipe!</button>
           </div>
       </form>
@@ -108,7 +120,17 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/bootswatch.js"></script>
+    <script src="/js/codemirror/codemirror.js"></script>
+    <script src="/js/codemirror/mode/recipe.js"></script>
 
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("dsl"), {
+        lineNumbers: true,
+        theme: "ambiance",
+        mode: "recipe"
+      });
+      editor.setSize(550,350);
+    </script>
 
   </body>
 </html>
