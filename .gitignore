@@ -1,6 +1,5 @@
 .hsenv*
 **/.DS_Store
-snaplet*
 foo
 aeson-bson
 **/dist*
