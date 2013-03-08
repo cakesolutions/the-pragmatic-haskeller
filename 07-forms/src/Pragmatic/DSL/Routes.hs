@@ -8,9 +8,10 @@ import Text.Parsec (parse)
 import Data.ByteString
 import qualified Data.ByteString.Char8 as BC (pack, unpack)
 import Snap
+import Snap.Snaplet.Heist
 
 dslRoutes :: [(ByteString, AppHandler ())]
-dslRoutes = [("/newRecipe", handleNewRecipe)]
+dslRoutes = [("/recipe/new", handleNewRecipe)]
 
 handleNewRecipe :: AppHandler ()
 handleNewRecipe = method POST handleParsing
@@ -19,5 +20,5 @@ handleNewRecipe = method POST handleParsing
             maybe (writeBS "Dsl can't be empty!") (\s ->
                   case parse recipe "" (BC.unpack s) of
                     Left e -> (writeBS . BC.pack . show $ e)
-                    Right r -> (writeBS . BC.pack . show $ r)) dslSourceCode
+                    Right r -> render "new_recipe") dslSourceCode
 
