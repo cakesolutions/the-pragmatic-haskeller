@@ -15,7 +15,7 @@ CodeMirror.defineMode("recipe", function(config, parserConfig) {
     var jsKeywords = {
       "if": A, "while": A, "is": A, "made": A, "with": A, "else": B, "do": B, "try": B, "finally": B,
       "return": C, "break": C, "continue": C, "new": C, "delete": C, "throw": C,
-      "prepared": A, "by": A, "and": A,
+      "prepared": A, "of": A, "by": A, "and": A,
       "var": kw("var"), "const": kw("var"), "let": kw("var"),
       "function": kw("function"), "catch": kw("catch"),
       "for": kw("for"), "switch": kw("switch"), "case": kw("case"), "default": kw("default"),

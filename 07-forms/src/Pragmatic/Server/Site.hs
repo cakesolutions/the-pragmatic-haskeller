@@ -19,11 +19,8 @@ import qualified Heist.Interpreted as I
 import qualified Data.ByteString.Lazy as BL
 
 import Pragmatic.Server.RecipePuppy (puppyRoutes)
+import Pragmatic.DSL.Routes (dslRoutes)
 
-
--------------------------------------------------------------------------------
-handleIndex :: AppHandler ()
-handleIndex = writeText "Welcome to the pragmatic bakery!"
 
 
 -------------------------------------------------------------------------------
@@ -63,7 +60,7 @@ storeRecipe recipe = case parseRecipe recipe of
 
 -------------------------------------------------------------------------------
 routes :: [(ByteString, AppHandler ())]
-routes = puppyRoutes ++ basicRoutes
+routes = dslRoutes ++ puppyRoutes ++ basicRoutes
 
 
 -------------------------------------------------------------------------------

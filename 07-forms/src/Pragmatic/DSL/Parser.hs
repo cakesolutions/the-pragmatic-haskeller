@@ -34,6 +34,7 @@ p <||> q = try p <|> q
 measureP :: Parser (Maybe String)
 measureP = (string "gr" *> (pure . Just $ "gr"))
        <|> (string "ml" *> (pure . Just $ "ml"))
+       <|> (string "spoon" *> (pure . Just $ "spoon"))
        <|> (pure Nothing)
 
 
@@ -48,7 +49,7 @@ ingredient = do
     lexeme (syntacticSugar "of")
     name <- lexeme stringLike
     lexeme (syntacticSugar "and")
-    string "\n"
+    string "\r\n"
     return $ Ingredient name qt ms
 
 -- Step
@@ -58,7 +59,7 @@ step = do
     sn <- lexeme stringLike
     d <- optionMaybe durationP
     lexeme (syntacticSugar "and")
-    string "\n"
+    try (string "\r\n") <|> (pure "")
     return $ Step sn 1 d
 
 -- Duration
@@ -77,9 +78,9 @@ durationP = do
 recipe :: Parser Recipe
 recipe = do
     rn <- lexeme stringLike
-    lexeme (syntacticSugar "is made with") *> string "\n"
+    lexeme (syntacticSugar "is made with") *> string "\r\n"
     i <- many1 ingredient
-    string "\n"
-    lexeme (string "prepared by") *> string "\n"
+    string "\r\n"
+    lexeme (string "prepared by") *> string "\r\n"
     s <- many1 step
     return $ Recipe rn i s

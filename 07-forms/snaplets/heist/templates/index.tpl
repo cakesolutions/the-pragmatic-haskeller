@@ -16,6 +16,9 @@
     <link href="/css/codemirror/codemirror.css" rel="stylesheet">
     <link href="/css/codemirror/themes/ambiance.css" rel="stylesheet">
 
+    <style type="text/css">
+      .CodeMirror-activeline-background {background: #5d5b5b !important;}
+    </style>
   </head>
 
   <body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
@@ -84,10 +87,10 @@
     </div>
 
     <div class="control-group span6">
-      <form method="post" action="/show">
+      <form method="post" action="/newRecipe">
           <label class="control-label" for="dsl">Submit your recipe</label>
           <div class="controls">
-            <textarea class="input-xlarge span5" id="dsl">
+            <textarea class="input-xlarge span5" name="dsl" id="dsl">
 "Ciambellone" is made with
     250 gr of "Flour"
     250 gr of "Sugar"
@@ -122,10 +125,12 @@
     <script src="/js/bootswatch.js"></script>
     <script src="/js/codemirror/codemirror.js"></script>
     <script src="/js/codemirror/mode/recipe.js"></script>
+    <script src="/js/codemirror/addon/active-line.js"></script>
 
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("dsl"), {
         lineNumbers: true,
+        styleActiveLine: true,
         theme: "ambiance",
         mode: "recipe"
       });
