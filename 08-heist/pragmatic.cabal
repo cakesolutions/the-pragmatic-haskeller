@@ -26,6 +26,7 @@ Executable pragmatic
     HTTP                      >= 4000.2.8   && < 4000.3,
     MonadCatchIO-transformers >= 0.2.1   && < 0.4,
     aeson                     >= 0.6.0.1 && < 0.7,
+    aeson-pretty              >= 0.7     && < 0.8,
     aeson-bson                >= 0.2.0   && < 0.3,
     base                      >= 4       && < 5,
     bytestring                >= 0.9.1   && < 0.11,

@@ -18,12 +18,13 @@
 
     </div>
 
+    <script src="/js/codemirror/mode/javascript.js"></script>
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("dsl"), {
         lineNumbers: true,
         styleActiveLine: true,
         theme: "ambiance",
-        mode: "json"
+        mode: "application/json"
       });
       editor.setSize(500,350);
     </script>
