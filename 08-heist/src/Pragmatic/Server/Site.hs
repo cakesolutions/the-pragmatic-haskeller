@@ -22,6 +22,19 @@ import Pragmatic.Server.RecipePuppy (puppyRoutes)
 import Pragmatic.DSL.Routes (dslRoutes)
 
 
+handleIndex :: AppHandler ()
+handleIndex = renderWithSplices "index" [("dsl", I.textSplice initialDsl)]
+  where initialDsl = T.pack $ unlines [
+                      "\"Ciambellone\" is made with\r\n",
+                      "    250 gr of \"Flour\"\r\n",
+                      "    250 gr of \"Sugar\"\r\n",
+                      "    130 ml of \"Sunflower Oil\"\r\n",
+                      "    130 ml of \"Water\"\r\n",
+                      "    3 \"Eggs\"\r\n",
+                      "\r\n",
+                      "  prepared by\r\n",
+                      "    \"Mixing everything\" and\r\n",
+                      "    \"Cooking in oven at 200 degrees\" for 40 minutes"]
 
 -------------------------------------------------------------------------------
 -- Show the underlying Haskell data structure of recipe.json
@@ -65,7 +78,8 @@ routes = dslRoutes ++ puppyRoutes ++ basicRoutes
 
 -------------------------------------------------------------------------------
 basicRoutes :: [(ByteString, AppHandler ())]
-basicRoutes = [ ("/show", handleShow)
+basicRoutes = [ ("/", handleIndex)
+              , ("/show", handleShow)
               , ("/store", handleStore)
               , ("", serveDirectory "static")]
 
