@@ -17,6 +17,8 @@
 
     </div>
 
+    <div name="errorLine" id="errorLine" class="hidden"><editorCurrentLine/></div>
+
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("dsl"), {
         lineNumbers: true,
@@ -24,7 +26,9 @@
         theme: "ambiance",
         mode: "recipe"
       });
+      var cursorLine = parseInt(document.getElementById("errorLine").innerText)
       editor.setSize(500,350);
+      editor.setCursor(cursorLine-1)
     </script>
 
 </apply>
