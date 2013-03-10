@@ -10,17 +10,17 @@
     <![endif]-->
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/bootswatch.js"></script>
-    <script src="/js/codemirror/codemirror.js"></script>
-    <script src="/js/codemirror/mode/recipe.js"></script>
-    <script src="/js/codemirror/addon/active-line.js"></script>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/css/bootswatch.css" rel="stylesheet">
-    <link href="/css/codemirror/codemirror.css" rel="stylesheet">
-    <link href="/css/codemirror/themes/ambiance.css" rel="stylesheet">
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootswatch.js"></script>
+    <script src="/static/js/codemirror/codemirror.js"></script>
+    <script src="/static/js/codemirror/mode/recipe.js"></script>
+    <script src="/static/js/codemirror/addon/active-line.js"></script>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/css/bootswatch.css" rel="stylesheet">
+    <link href="/static/css/codemirror/codemirror.css" rel="stylesheet">
+    <link href="/static/css/codemirror/themes/ambiance.css" rel="stylesheet">
 
     <style type="text/css">
       .CodeMirror-activeline-background {background: #5d5b5b !important;}
@@ -86,7 +86,7 @@
     <div class="span6">
       <a href="/"><h1>The Pragmatic Bakery</h1></a>
       <p class="lead">In case of zombie invasion.</p>
-      <div class align="center"><img src="/img/cupcake.png"/></div>
+      <div class align="center"><img src="/static/img/cupcake.png"/></div>
     </div>
 
     <apply-content/>
