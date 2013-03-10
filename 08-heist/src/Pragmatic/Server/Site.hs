@@ -23,17 +23,18 @@ import Pragmatic.DSL.Routes (dslRoutes)
 
 
 handleIndex :: AppHandler ()
-handleIndex = renderWithSplices "index" [("dsl", I.textSplice initialDsl)]
+handleIndex = renderWithSplices "new_dsl" [("recipe", I.textSplice initialDsl)
+                                          ,("editorCurrentLine", I.textSplice "1")]
   where initialDsl = T.pack $ unlines [
-                      "\"Ciambellone\" is made with\r\n",
-                      "    250 gr of \"Flour\"\r\n",
-                      "    250 gr of \"Sugar\"\r\n",
-                      "    130 ml of \"Sunflower Oil\"\r\n",
-                      "    130 ml of \"Water\"\r\n",
-                      "    3 \"Eggs\"\r\n",
-                      "\r\n",
-                      "  prepared by\r\n",
-                      "    \"Mixing everything\" and\r\n",
+                      "\"Ciambellone\" is made with\r",
+                      "    250 gr of \"Flour\"\r",
+                      "    250 gr of \"Sugar\"\r",
+                      "    130 ml of \"Sunflower Oil\"\r",
+                      "    130 ml of \"Water\"\r",
+                      "    3 \"Eggs\"\r",
+                      "\r",
+                      "  prepared by\r",
+                      "    \"Mixing everything\" and\r",
                       "    \"Cooking in oven at 200 degrees\" for 40 minutes"]
 
 -------------------------------------------------------------------------------
@@ -73,7 +74,7 @@ storeRecipe recipe = case parseRecipe recipe of
 
 -------------------------------------------------------------------------------
 routes :: [(ByteString, AppHandler ())]
-routes = dslRoutes ++ puppyRoutes ++ basicRoutes
+routes = basicRoutes ++ dslRoutes ++ puppyRoutes
 
 
 -------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ basicRoutes :: [(ByteString, AppHandler ())]
 basicRoutes = [ ("/", handleIndex)
               , ("/show", handleShow)
               , ("/store", handleStore)
-              , ("", serveDirectory "static")]
+              , ("/static", serveDirectory "static")]
 
 
 -------------------------------------------------------------------------------

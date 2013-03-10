@@ -16,7 +16,7 @@ int = read <$> many1 digit
 
 
 stringLike :: Parser String
-stringLike = char '"' *> many (noneOf "\"") <* char '"'
+stringLike = char '"' *> many (noneOf ['\"', '\r', '\n']) <* char '"'
 
 
 -- A parser combinator which skips whitespaces from both sides
@@ -35,6 +35,7 @@ measureP :: Parser (Maybe String)
 measureP = (string "gr" *> (pure . Just $ "gr"))
        <|> (string "ml" *> (pure . Just $ "ml"))
        <|> (string "spoon" *> (pure . Just $ "spoon"))
+       <|> (string "cup" *> (pure . Just $ "cup"))
        <|> (pure Nothing)
 
 
@@ -59,7 +60,7 @@ step = do
     sn <- lexeme stringLike
     d <- optionMaybe durationP
     lexeme (syntacticSugar "and")
-    try (string "\r\n") <|> (pure "")
+    string "\r\n" <||> pure ""
     return $ Step sn 1 d
 
 -- Duration
@@ -80,7 +81,7 @@ recipe = do
     rn <- lexeme stringLike
     lexeme (syntacticSugar "is made with") *> string "\r\n"
     i <- many1 ingredient
-    string "\r\n"
+    many1 (string "\r\n")
     lexeme (string "prepared by") *> string "\r\n"
     s <- many1 step
     return $ Recipe rn i s
