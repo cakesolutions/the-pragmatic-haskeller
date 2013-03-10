@@ -10,9 +10,7 @@
             <br/>
             <button type="submit" class="span5 btn btn-primary">Save your recipe!</button>
             <div class="span5">
-                <div class="alert alert-block">
-                <parsingError/>
-                </div>
+              <parsingError/>
             </div>
           </div>
       </form>
