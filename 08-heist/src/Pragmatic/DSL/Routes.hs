@@ -40,10 +40,9 @@ handleNewRecipe = method POST handleParsing
             dslSourceCode <- getPostParam "dsl"
             maybe (spliceError "Dsl can't be empty!" "")(\s ->
                   case parse recipe "" (BC.unpack s) of
-                    Left e -> spliceError (show e) (decodeUtf8 s)
+                    Left e -> spliceError (show e) (T.strip . decodeUtf8 $ s)
                     Right r -> let splices = [("json", I.textSplice $ recipe2json r)]
-                                   in renderWithSplices "new_recipe" splices)
-                  dslSourceCode
+                                in renderWithSplices "new_recipe" splices) dslSourceCode
 
         spliceError e d = let splices = [("parsingError", bootstrapAlert "alert" e)
                                         ,("editorCurrentLine", findErrorLine e)
