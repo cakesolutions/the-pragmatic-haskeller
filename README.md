@@ -18,17 +18,15 @@ recipies. In particular, we'll focus on:
 cabal install
 ```
 
-inside the root folder. You will need the Haskell Platform installed or
-at least ```cabal``` and ```cabal install```. 
-
-Same applies for ```aeson-bson``` and the latest Snap:
+inside each subfolder to install the desired version.
+You will need the Haskell Platform installed or at least ```cabal``` 
+and ```cabal install```. Install my version of ```aeson-bson```:
 
 ```
 git clone https://github.com/adinapoli/aeson-bson.git
 cd aeson-bson
 cabal install
 ```
-
 
 ## Avoid Cabal Hell
 Consider using ```hsenv``` to work inside an isolate environment everytime:
