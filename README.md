@@ -1,4 +1,3 @@
-
 ## The Pragmatic Haskeller
 
 A collection of "recipies" (no pun intended) to pragmatically
@@ -7,13 +6,11 @@ recipies. In particular, we'll focus on:
 
 * How to parse Json files describing recipies
 
-* Build a web service which sends us back recipies ad Json file.
+* How to automatically convert between Json and Bson for storing recipies inside MongoDB
 
 * Interfacing with an external [API](http://www.recipepuppy.com/)
 
 * A DSL for describing recipies
-
-* An Async agent for decoupling heavy computations from our REST endpoints
 
 ## Installation
 
@@ -22,15 +19,7 @@ cabal install
 ```
 
 inside the root folder. You will need the Haskell Platform installed or
-at least ```cabal``` and ```cabal install```. You will also need to install
-```snaplet-mongodb-minimalistic```. Install it manually until my patch gets
-merged in the official repo and the new package get released on Hackage:
-
-```
-git clone https://github.com/adinapoli/snaplet-mongodb-minimalistic.git
-cd snaplet-mongodb-minimalistic
-cabal install
-```
+at least ```cabal``` and ```cabal install```. 
 
 Same applies for ```aeson-bson``` and the latest Snap:
 
@@ -40,11 +29,6 @@ cd aeson-bson
 cabal install
 ```
 
-```
-git clone https://github.com/adinapoli/snap.git
-cd snap
-cabal install
-```
 
 ## Avoid Cabal Hell
 Consider using ```hsenv``` to work inside an isolate environment everytime:
@@ -77,3 +61,7 @@ hacking to run the server like a normal Haskell program:
 cd [any episodes >= 2]
 runhaskell Pragmatic/Server/Main.hs
 ```
+
+## Show me a demo!
+
+Sure! Here we go: http://ec2-107-22-56-237.compute-1.amazonaws.com:8000
