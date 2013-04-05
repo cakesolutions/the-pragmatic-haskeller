@@ -49,22 +49,9 @@ isolated environment! If you have cabal hell inside hsenv, simply delete
 ```.hsenv``` and repeat the steps above; you'll have a brand new environment
 to spoil!
 
-## Running the web server
-
-This changes episode after episode. Even though Snap allows you to compile
-your webapp in a raw, blazing fast, machine executable, it's easier when
-hacking to run the server like a normal Haskell program:
+## Running each episode
 
 ```
-cd [any episodes >= 2]
-runhaskell Pragmatic/Server/Main.hs
-```
-
-Even though running the server could be handy this way, sometimes all you need
-is to let cabal do the heavy lifting for you:
-
-```
-cd [any episode >= 2]
 cabal install
 pragmatic
 ```
