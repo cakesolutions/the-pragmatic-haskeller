@@ -1,11 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Pragmatic.Main where
+module Main where
 
 import Data.ByteString.Lazy as BL
 import Data.ByteString.Lazy.Char8 as C8
 import Pragmatic.Types
-import Pragmatic.JSON.Parser
+import Pragmatic.JSON.Parser()
 import Data.Aeson
 import Data.Monoid
 
@@ -13,6 +13,6 @@ main :: IO ()
 main = do
     toParse <- BL.readFile "recipe.json"
     case (eitherDecode' toParse :: Either String Recipe) of
-      Right r -> Prelude.putStrLn . show $ r
-      Left e -> C8.putStrLn $ (C8.pack e) <> " in " <> toParse
+      Right r -> print r
+      Left e -> C8.putStrLn $ C8.pack e <> " in " <> toParse
 
