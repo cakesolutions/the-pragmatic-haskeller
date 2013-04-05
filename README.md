@@ -60,6 +60,17 @@ cd [any episodes >= 2]
 runhaskell Pragmatic/Server/Main.hs
 ```
 
+Even though running the server could be handy this way, sometimes all you need
+is to let cabal do the heavy lifting for you:
+
+```
+cd [any episode >= 2]
+cabal install
+pragmatic
+```
+
+To run the "pragmatic" server.
+
 ## Show me a demo!
 
 Sure! Here we go: http://ec2-107-22-56-237.compute-1.amazonaws.com:8000
