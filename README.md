@@ -1,16 +1,16 @@
 ## The Pragmatic Haskeller
 
-A collection of "recipies" (no pun intended) to pragmatically
+A collection of "recipes" (no pun intended) to pragmatically
 get things done in Haskell. We'll build a simple web application for managing
-recipies. In particular, we'll focus on:
+recipes. In particular, we'll focus on:
 
-* How to parse Json files describing recipies
+* How to parse Json files describing recipes
 
-* How to automatically convert between Json and Bson for storing recipies inside MongoDB
+* How to automatically convert between Json and Bson for storing recipes inside MongoDB
 
 * Interfacing with an external [API](http://www.recipepuppy.com/)
 
-* A DSL for describing recipies
+* A DSL for describing recipes
 
 ## Installation
 
@@ -19,7 +19,7 @@ cabal install
 ```
 
 inside each subfolder to install the desired version.
-You will need the Haskell Platform installed or at least ```cabal``` 
+You will need the Haskell Platform installed or at least ```cabal```
 and ```cabal install```. Install my version of ```aeson-bson```:
 
 ```
