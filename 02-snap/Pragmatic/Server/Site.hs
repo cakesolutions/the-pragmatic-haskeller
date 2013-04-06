@@ -48,7 +48,7 @@ storeRecipe :: BL.ByteString -> AppHandler (Either String Object)
 storeRecipe recipe = case parseRecipe recipe of
       Left f -> return $ Left f
       Right r -> do
-        res <- eitherWithDB $ insert "recipies" $ toBson r 
+        res <- eitherWithDB $ insert "recipes" $ toBson r
         case res of
           Left _ -> return $ Left "Failed to store the recipe."
           Right _ -> return $ Right r
