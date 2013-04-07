@@ -2,8 +2,8 @@
 
 module Main where
 
-import Data.ByteString.Lazy as BL
-import Data.ByteString.Lazy.Char8 as C8
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Lazy.Char8 as C8
 import Pragmatic.Types
 import Pragmatic.JSON.Parser()
 import Data.Aeson
