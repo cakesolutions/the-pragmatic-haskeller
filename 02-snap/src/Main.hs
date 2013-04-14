@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Pragmatic.Server where
+module Main where
 
 import Snap
 import Pragmatic.Server.Site
