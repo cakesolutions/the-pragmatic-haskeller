@@ -64,7 +64,7 @@ handleDataGet = do
     writeText $ T.pack $ "{\"data\": " ++ show sample ++ "}"
   where
     getSample :: IO Float
-    getSample = randomRIO (-1.0, 1.0)
+    getSample = randomRIO (0.0, 50.0)
 
 
 -------------------------------------------------------------------------------
