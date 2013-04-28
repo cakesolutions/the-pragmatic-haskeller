@@ -1,6 +1,7 @@
 .hsenv*
 **/.DS_Store
 foo
+hsenv.log
 aeson-bson
 **/dist*
 **/log*
