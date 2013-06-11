@@ -16,7 +16,7 @@ int = read <$> many1 digit
 
 
 stringLike :: Parser String
-stringLike = char '"' *> many (noneOf "\"") <* char '"'
+stringLike = char '"' *> many (noneOf ['\"', '\r', '\n']) <* char '"'
 
 
 -- A parser combinator which skips whitespaces from both sides
@@ -34,6 +34,8 @@ p <||> q = try p <|> q
 measureP :: Parser (Maybe String)
 measureP = (string "gr" *> (pure . Just $ "gr"))
        <|> (string "ml" *> (pure . Just $ "ml"))
+       <|> (string "spoon" *> (pure . Just $ "spoon"))
+       <|> (string "cup" *> (pure . Just $ "cup"))
        <|> (pure Nothing)
 
 
@@ -48,7 +50,7 @@ ingredient = do
     lexeme (syntacticSugar "of")
     name <- lexeme stringLike
     lexeme (syntacticSugar "and")
-    string "\n"
+    string "\r\n"
     return $ Ingredient name qt ms
 
 -- Step
@@ -58,7 +60,7 @@ step = do
     sn <- lexeme stringLike
     d <- optionMaybe durationP
     lexeme (syntacticSugar "and")
-    string "\n"
+    string "\r\n" <||> pure ""
     return $ Step sn 1 d
 
 -- Duration
@@ -69,9 +71,7 @@ durationP = do
     d <- lexeme int
     u <- lexeme durationUnit
     return $ Duration d u
-  where durationUnit = (string "seconds") <|>
-                       (string "minutes") <|>
-                       (string "hours")
+  where durationUnit = string "seconds" <|> string "minutes" <|> string "hours"
 
 
 -- Recipe
@@ -79,9 +79,9 @@ durationP = do
 recipe :: Parser Recipe
 recipe = do
     rn <- lexeme stringLike
-    lexeme (syntacticSugar "is made with") *> string "\n"
+    lexeme (syntacticSugar "is made with") *> string "\r\n"
     i <- many1 ingredient
-    string "\n"
-    lexeme (string "preparated by") *> string "\n"
+    many1 (string "\r\n")
+    lexeme (string "prepared by") *> string "\r\n"
     s <- many1 step
     return $ Recipe rn i s
