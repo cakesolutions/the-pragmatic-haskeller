@@ -20,13 +20,8 @@ cabal install
 
 inside each subfolder to install the desired version.
 You will need the Haskell Platform installed or at least ```cabal```
-and ```cabal install```. Install my version of ```aeson-bson```:
+and ```cabal install```.
 
-```
-git clone https://github.com/adinapoli/aeson-bson.git
-cd aeson-bson
-cabal install
-```
 
 ## Avoid Cabal Hell
 Consider using ```hsenv``` to work inside an isolate environment everytime:
