@@ -15,6 +15,7 @@ recipes. In particular, we'll focus on:
 ## Installation
 
 ``` shell
+cd <episode folder>
 cabal install
 ```
 
