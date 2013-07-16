@@ -6,7 +6,6 @@ import Text.ParserCombinators.Parsec
 import Pragmatic.Types
 import Pragmatic.DSL.Parser
 import Control.Applicative hiding ((<|>), optional, many)
-import Control.Lens
 
 -- Shameless copy of the "Parsing Stuff in
 -- Haskell" talk.
@@ -30,13 +29,7 @@ parseCiambellone = do
   res <- parseFromFile recipe "ciambellone.rcp"
   case res of
     Left e -> return . Left $ e
-    Right r -> return . Right . correctOrder $ r
-
--- Uses lenses to incrementally increase the order
-correctOrder :: Recipe -> Recipe
-correctOrder r = r { _steps = newSteps (_steps r)}
-  where newSteps s = zipWith (over order) (const <$> [1..length s]) s
-
+    Right r -> return . Right $ r
 
 printCiambelloneParsing :: IO ()
 printCiambelloneParsing = parseCiambellone >>= print
