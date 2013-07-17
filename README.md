@@ -12,6 +12,12 @@ recipes. In particular, we'll focus on:
 
 * A DSL for describing recipes
 
+## Follow the tutorials!
+
+I wrote a complete series on "The School of Haskell":
+
+* [The Pragmatic Haskeller](https://www.fpcomplete.com/user/adinapoli/the-pragmatic-haskeller)
+
 ## Installation
 
 ``` shell
